@@ -1,7 +1,9 @@
+# All of the SQL practice is very bad do not replicate
+
 import sqlite3
 
 def db_connect():
-    return sqlite3.connect('info_db.db')
+    return sqlite3.connect('../info_db.db')
 
 def get_url(coin):
     query = "SELECT api_url FROM coins WHERE coin_name = '{0}'".format(coin)
