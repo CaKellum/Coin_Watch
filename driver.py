@@ -1,16 +1,16 @@
-import data_manager as dm
-import figure_trend as ft
-import email
+from .main import data_manager as dm
+from .main import figure_trend as ft
+from .main import manage_email as me
 
 
 def main():
     result = dm.get_data()
     if result == -1:
-        email.send_custom("coin_tracker now online")
+        me.send_custom("coin_tracker now online")
     else: 
         desicion = ft.decide(result)
         if(desicion['thought'] == 'sell'):
-            email.send_sell(desicion['price'])
+            me.send_sell(desicion['price'])
             dm.write_new(desicion)
         else:
             dm.write_new(desicion)

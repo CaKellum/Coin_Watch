@@ -39,7 +39,7 @@ def add_price(price, coin):
 
 def get_prices(coin):
     cur = db_connect().cursor()
-    query_get = "SELECT coin_price FROM prices WHERE coin = '{0}'".format(coin)
+    query_get = "SELECT coin_price FROM prices WHERE coin = '{0}' ORDER BY time".format(coin)
     result = cur.execute(query_get)
     return result.fetchall()
 
