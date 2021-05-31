@@ -1,16 +1,29 @@
 # All of the SQL practice is very bad do not replicate
-
 import sqlite3
 
+def _init_tables():
+    command = "CREATE TABLE coins(coin VARCHAR2 PRIMARY KEY, api VARCHAR2 NOT NULL);"
+    command2 = "CREATE TABLE prices(coin VARCHAR2 REFERENCES coins(coin), coin_price NUMBER NOT NULL, time DATE PRIMARY KEY);"
+    db = db_connect().cursor()
+    db.execute(command)
+    db.execute(command2)
+    insert = "INSERT INTO coins (coin, api) VALUES ('BITCOIN', 'https://api.coindesk.com/v1/bpi/currentprice/USD.json');"
+    db.execute(insert)
+
+
 def db_connect():
-    return sqlite3.connect('../info_db.db')
+    return sqlite3.connect('main/coin_watch.db')
+
 
 def get_url(coin):
-    query = "SELECT api_url FROM coins WHERE coin_name = '{0}'".format(coin)
+    query = "SELECT api FROM coins WHERE coin = '{0}'".format(coin)
     cur = db_connect().cursor()
-    result = cur.execute(query)
-    url = result.fetchone()[0]
-    return url
+    try:
+        result = cur.execute(query)
+    except sqlite3.OperationalError:
+        return "Error"
+    return result.fetchone()[0]
+
 
 def add_price(price, coin):
     query_id = "SELECT coin_id FROM coins WHERE coin_name ='{0}'".format(coin)
