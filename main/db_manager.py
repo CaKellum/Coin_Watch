@@ -26,13 +26,20 @@ def get_url(coin):
 
 
 def add_price(price, coin):
-    query_id = "SELECT coin_id FROM coins WHERE coin_name ='{0}'".format(coin)
-    cur = db_connect().cursor()
-    result = cur.execute(query_id)
-    id = result.fetchone()[0]
+    conn = db_connect()
+    cur = conn.cursor()
+    query_insert = "INSERT INTO prices(coin, coin_price) Values('{0}',{1})".format(coin, price)
     try:
-        query_insert = "INSERT INTO prices(coin_id, price) Values({0},{1})".format(id, price)
-        cur.execute(query_id)
+        result = cur.execute(query_insert)
+        conn.commit()
+        print("inserted {0} {1} {2}".format(coin, price, result))
     except sqlite3.IntegrityError:
         return 1
     return 0
+
+
+def get_prices(coin):
+    cur = db_connect().cursor()
+    query_get = "SELECT coin_price FROM prices WHERE coin = '{0}'".format(coin)
+    result = cur.execute(query_get)
+    print(result.fetchall())

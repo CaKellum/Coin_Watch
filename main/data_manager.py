@@ -10,7 +10,10 @@ def _get_new_data(coin):
 def _update_db(price, coin):
     return db.add_price(price,coin)
 
-def update():
-    result = _update_db(_get_new_data())
-    if(result == 1):
+def update(coin):
+    result = _update_db(_get_new_data(coin), coin)
+    if(result != 0):
         print("ERROR Inserting new price")
+
+update('BITCOIN')
+db.get_prices('BITCOIN')
