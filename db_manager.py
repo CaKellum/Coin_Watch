@@ -12,7 +12,7 @@ def _init_tables():
 
 
 def db_connect():
-    return sqlite3.connect('coin_watch/main/coin_watch.db')
+    return sqlite3.connect('coin_watch/resource/coin_watch.db')
 
 
 def get_url(coin):
