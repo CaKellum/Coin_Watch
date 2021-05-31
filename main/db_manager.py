@@ -32,7 +32,6 @@ def add_price(price, coin):
     try:
         result = cur.execute(query_insert)
         conn.commit()
-        print("inserted {0} {1} {2}".format(coin, price, result))
     except sqlite3.IntegrityError:
         return 1
     return 0
@@ -42,4 +41,16 @@ def get_prices(coin):
     cur = db_connect().cursor()
     query_get = "SELECT coin_price FROM prices WHERE coin = '{0}'".format(coin)
     result = cur.execute(query_get)
-    print(result.fetchall())
+    return result.fetchall()
+
+
+def add_coin(coin, api):
+    conn = db_connect()
+    cur = conn.cursor()
+    query_insert = "INSERT INTO coins(coin, api) Values('{0}','{1}')".format(coin, api)
+    try:
+        result = cur.execute(query_insert)
+        conn.commit()
+    except sqlite3.IntegrityError:
+        return 1
+    return 0

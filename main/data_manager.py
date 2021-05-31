@@ -1,6 +1,6 @@
 import json
 import urllib.request as ur
-import db_manager as db
+from . import db_manager as db
 
 def _get_new_data(coin):
     url = db.get_url(coin)
@@ -14,6 +14,3 @@ def update(coin):
     result = _update_db(_get_new_data(coin), coin)
     if(result != 0):
         print("ERROR Inserting new price")
-
-update('BITCOIN')
-db.get_prices('BITCOIN')
